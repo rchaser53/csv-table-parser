@@ -6,7 +6,7 @@
 	"scripts": {
 		"tsc": "tsc -p .",
 		"prettier": "prettier --write \"**/*.{md,js,ts,json}\"",
-		"test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --runInBand --coverage"
 	},
 	"repository": {
 		"type": "git",
@@ -20,8 +20,25 @@
 	},
 	"homepage": "https://github.com/rchaser53/csv-table-parser#readme",
 	"devDependencies": {
+		"@types/jest": "^22.0.1",
 		"jest": "^22.1.1",
 		"prettier": "^1.10.2",
 		"typescript": "^2.6.2"
+	},
+	"jest": {
+		"moduleFileExtensions": [
+      "ts",
+      "js"
+		],
+		"transform": {
+			"^.+\\.ts$": "<rootDir>/preprocessor.js"
+    },
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "dest"
+    ],
+		"testMatch": [
+      "**/__tests__/*.(ts|js)"
+		]
 	}
 }
