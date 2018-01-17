@@ -56,3 +56,6 @@ export const createRowFactory = (keys: string[], fixedOptions: FixedOptions): Cr
 export const trimString = (str: string): string => {
 	return str.replace(/^\s*/, '').replace(/\s*$/, '')
 }
+
+module.exports = convertCsvToObject
+export default convertCsvToObject
