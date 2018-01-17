@@ -1,0 +1,27 @@
+{
+	"name": "csv-table-parser",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"tsc": "tsc -p .",
+		"prettier": "prettier --write \"**/*.{md,js,ts,json}\"",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/rchaser53/csv-table-parser.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/rchaser53/csv-table-parser/issues"
+	},
+	"homepage": "https://github.com/rchaser53/csv-table-parser#readme",
+	"devDependencies": {
+		"jest": "^22.1.1",
+		"prettier": "^1.10.2",
+		"typescript": "^2.6.2"
+	}
+}
