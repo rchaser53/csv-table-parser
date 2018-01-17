@@ -1,12 +1,14 @@
 {
 	"name": "csv-table-parser",
 	"version": "1.0.0",
-	"description": "",
+	"description": "convert csv to object array",
 	"main": "index.js",
 	"scripts": {
+    "pretsc": "rimraf dest",
 		"tsc": "tsc -p .",
 		"prettier": "prettier --write \"**/*.{md,js,ts,json}\"",
-		"test": "jest --runInBand --coverage"
+		"test": "jest --runInBand --coverage",
+		"prepublishOnly": "npm run prettier && npm run test && npm run tsc"
 	},
 	"repository": {
 		"type": "git",
@@ -23,15 +25,24 @@
 		"@types/jest": "^22.0.1",
 		"jest": "^22.1.1",
 		"prettier": "^1.10.2",
+		"rimraf": "^2.6.2",
 		"typescript": "^2.6.2"
 	},
 	"jest": {
-		"moduleFileExtensions": ["ts", "js"],
+		"moduleFileExtensions": [
+			"ts",
+			"js"
+		],
 		"transform": {
 			"^.+\\.ts$": "<rootDir>/preprocessor.js"
 		},
-		"testPathIgnorePatterns": ["<rootDir>/node_modules/", "dest"],
-		"testMatch": ["**/__tests__/*.(ts|js)"]
+		"testPathIgnorePatterns": [
+			"<rootDir>/node_modules/",
+			"dest"
+		],
+		"testMatch": [
+			"**/__tests__/*.(ts|js)"
+		]
 	},
 	"dependencies": {
 		"is-number": "^4.0.0"

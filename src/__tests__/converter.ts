@@ -1,4 +1,4 @@
-import { convertCsvToObject } from '..'
+import { convertCsvToObject } from '../converter'
 
 describe('convertCsvToObject', () => {
 	test('convert csv to object', async () => {
