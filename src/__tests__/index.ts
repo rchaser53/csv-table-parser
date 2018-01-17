@@ -26,11 +26,31 @@ describe('convertCsvToObject using tab for separator', () => {
 		const input = `a	b	c
 1	2	3`
 
-		expect(convertCsvToObject(input, '\t')).toEqual([
+		expect(convertCsvToObject(input, {
+			separator: '\t',
+			trim: false
+		})).toEqual([
 			{
 				a: '1',
 				b: '2',
 				c: '3'
+			}
+		])
+	})
+})
+
+describe('convertCsvToObject using trim option', () => {
+	test('trim space and tab before and after string', async () => {
+		const input = `a, b,   c
+1	,2 , 3 2`
+
+		expect(convertCsvToObject(input, {
+			trim: true
+		})).toEqual([
+			{
+				a: '1',
+				b: '2',
+				c: '3 2'
 			}
 		])
 	})
