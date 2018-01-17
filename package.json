@@ -6,7 +6,7 @@
 	"scripts": {
 		"tsc": "tsc -p .",
 		"prettier": "prettier --write \"**/*.{md,js,ts,json}\"",
-    "test": "jest --runInBand --coverage"
+		"test": "jest --runInBand --coverage"
 	},
 	"repository": {
 		"type": "git",
@@ -26,19 +26,11 @@
 		"typescript": "^2.6.2"
 	},
 	"jest": {
-		"moduleFileExtensions": [
-      "ts",
-      "js"
-		],
+		"moduleFileExtensions": ["ts", "js"],
 		"transform": {
 			"^.+\\.ts$": "<rootDir>/preprocessor.js"
-    },
-    "testPathIgnorePatterns": [
-      "<rootDir>/node_modules/",
-      "dest"
-    ],
-		"testMatch": [
-      "**/__tests__/*.(ts|js)"
-		]
+		},
+		"testPathIgnorePatterns": ["<rootDir>/node_modules/", "dest"],
+		"testMatch": ["**/__tests__/*.(ts|js)"]
 	}
 }
