@@ -1,15 +1,19 @@
+import isNumber = require('is-number')
+
 export interface AnyObject {
 	[key: string]: any
 }
 
 export interface Options {
-	trim?: boolean,
-	separator?: string,
+	trim?: boolean
+	separator?: string
+	convertNumber?: boolean
 }
 
 export interface FixedOptions {
-	trim: boolean,
-	separator: string,
+	trim: boolean
+	separator: string
+	convertNumber: boolean
 }
 
 export type CreateRows = (obj: AnyObject, elem: any, index: number) => AnyObject
@@ -17,6 +21,7 @@ export type CreateRows = (obj: AnyObject, elem: any, index: number) => AnyObject
 const DefaultOptions = {
 	trim: true,
 	separator: ',',
+	convertNumber: true
 }
 
 export const createOptions = (options: Options): FixedOptions => {
@@ -39,13 +44,13 @@ export const convertCsvToObject = (tsvString: string, options: Options = {}): An
 }
 
 export const createRowFactory = (keys: string[], fixedOptions: FixedOptions): CreateRows => {
-	const { trim } = fixedOptions
+	const { trim, convertNumber } = fixedOptions
 	return (obj, elem, index) => {
-		const key = (trim) ? trimString(keys[index]) : keys[index]
-		const value = (trim) ? trimString(elem) : elem
-		obj[key] = value
+		const key = trim ? trimString(keys[index]) : keys[index]
+		const value = trim ? trimString(elem) : elem
+		obj[key] = isNumber(value) && convertNumber ? parseInt(value) : value
 		return obj
-	}	
+	}
 }
 
 export const trimString = (str: string): string => {

@@ -32,5 +32,8 @@
 		},
 		"testPathIgnorePatterns": ["<rootDir>/node_modules/", "dest"],
 		"testMatch": ["**/__tests__/*.(ts|js)"]
+	},
+	"dependencies": {
+		"is-number": "^4.0.0"
 	}
 }
