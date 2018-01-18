@@ -1,3 +1,9 @@
+# how to install
+
+```
+ npm install csv-table-parser
+```
+
 # what's this?
 
 csv file convert to object array like below.
