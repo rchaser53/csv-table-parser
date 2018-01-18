@@ -14,6 +14,19 @@ describe('convertCsvToObject', () => {
 		])
 	})
 
+	test('convert boolean string to boolean', async () => {
+		const input = `a,b,c
+true,false,3`
+
+		expect(convertCsvToObject(input)).toEqual([
+			{
+				a: true,
+				b: false,
+				c: 3
+			}
+		])
+	})
+
 	test('return empty array when first parameter is ""', async () => {
 		const input = ``
 
@@ -96,3 +109,30 @@ describe('convertCsvToObject using convertNumber option', () => {
 		])
 	})
 })
+
+// describe('convertCsvToObject using filterRows option', () => {
+// 	test('filter not match condtion', async () => {
+// 		const input = `a, b, c
+// 1, 2, 3,
+// 4
+// 5,6,7,8
+// 9, 10, 11`
+
+// 		expect(
+// 			convertCsvToObject(input, {
+// 				filter: [
+// 					(rowStr: string) => {
+// 						rowElements = rowStr.split(',')
+// 						return rowElements.length === 3
+// 					}
+// 				]
+// 			})
+// 		).toEqual([
+// 			{
+// 				a: '1',
+// 				b: '2',
+// 				c: '3'
+// 			}
+// 		])
+// 	})
+// })
