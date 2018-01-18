@@ -1,11 +1,11 @@
-import { parse } from '../converter'
+import { parser } from '../parser'
 
-describe('parse', () => {
-	test('convert csv to object', async () => {
+describe('parser', () => {
+	test('parse csv to object', async () => {
 		const input = `a,b,c
 1,2,3`
 
-		expect(parse(input)).toEqual([
+		expect(parser(input)).toEqual([
 			{
 				a: 1,
 				b: 2,
@@ -14,11 +14,11 @@ describe('parse', () => {
 		])
 	})
 
-	test('convert boolean string to boolean', async () => {
+	test('parse boolean string to boolean', async () => {
 		const input = `a,b,c
 true,false,3`
 
-		expect(parse(input)).toEqual([
+		expect(parser(input)).toEqual([
 			{
 				a: true,
 				b: false,
@@ -30,7 +30,7 @@ true,false,3`
 	test('return empty array when first parameter is ""', async () => {
 		const input = ``
 
-		expect(parse(input)).toEqual([])
+		expect(parser(input)).toEqual([])
 	})
 
 	test('trim space and tab before and after string', async () => {
@@ -38,7 +38,7 @@ true,false,3`
 1	,2 , 3 2`
 
 		expect(
-			parse(input, {
+			parser(input, {
 				trim: true
 			})
 		).toEqual([
@@ -51,13 +51,13 @@ true,false,3`
 	})
 })
 
-describe('parse using tab for separator', () => {
-	test('convert tsv to object', async () => {
+describe('parser using tab for separator', () => {
+	test('parse tsv to object', async () => {
 		const input = `a	b	c
 1	2	3`
 
 		expect(
-			parse(input, {
+			parser(input, {
 				separator: '\t',
 				trim: false
 			})
@@ -71,13 +71,13 @@ describe('parse using tab for separator', () => {
 	})
 })
 
-describe('parse using trim option', () => {
+describe('parser using trim option', () => {
 	test('should not trim space and tab before and after string', async () => {
 		const input = `a, b,   c
 1	,2 , 3 2`
 
 		expect(
-			parse(input, {
+			parser(input, {
 				trim: false,
 				convertNumber: false
 			})
@@ -91,13 +91,13 @@ describe('parse using trim option', () => {
 	})
 })
 
-describe('parse using convertNumber option', () => {
-	test('should not convert number value to Number', async () => {
+describe('parser using parseNumber option', () => {
+	test('should not parse number value to Number', async () => {
 		const input = `a, b, c
 1, 2, 3`
 
 		expect(
-			parse(input, {
+			parser(input, {
 				convertNumber: false
 			})
 		).toEqual([
@@ -110,13 +110,13 @@ describe('parse using convertNumber option', () => {
 	})
 })
 
-describe('parse using convertBoolean option', () => {
+describe('parser using parseBoolean option', () => {
 	test('should not convert boolean value to boolean', async () => {
 		const input = `a, b, c
-1, true, false` 
+1, true, false`
 
 		expect(
-			parse(input, {
+			parser(input, {
 				convertBoolean: false
 			})
 		).toEqual([
@@ -129,14 +129,14 @@ describe('parse using convertBoolean option', () => {
 	})
 })
 
-describe('parse using keys option', () => {
+describe('parser using keys option', () => {
 	test('use keys option for key insteadof firstline', async () => {
 		const input = `a, b, c
-1, true, false` 
+1, true, false`
 
 		expect(
-			parse(input, {
-				keys: ["aaa", "bbb", "ccc"]
+			parser(input, {
+				keys: ['aaa', 'bbb', 'ccc']
 			})
 		).toEqual([
 			{
@@ -153,18 +153,15 @@ describe('parse using keys option', () => {
 	})
 })
 
-describe('parse using type option', () => {
+describe('parser using type option', () => {
 	test('return array insteadof object if type is "array"', async () => {
 		const input = `a, b, c
-1, true, false` 
+1, true, false`
 
 		expect(
-			parse(input, {
+			parser(input, {
 				type: 'array'
 			})
-		).toEqual([
-			['a', 'b', 'c'],
-			[1, true, false]
-		])
+		).toEqual([['a', 'b', 'c'], [1, true, false]])
 	})
 })

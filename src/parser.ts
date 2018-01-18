@@ -6,8 +6,8 @@ export interface AnyObject {
 
 export interface Options {
 	separator?: string
-	keys?: string[],
-	type?: 'object' | 'array',
+	keys?: string[]
+	type?: 'object' | 'array'
 	trim?: boolean
 	convertNumber?: boolean
 	convertBoolean?: boolean
@@ -16,7 +16,7 @@ export interface Options {
 export interface FixedOptions {
 	separator: string
 	keys: string[]
-	type: 'object' | 'array',
+	type: 'object' | 'array'
 	trim: boolean
 	convertNumber: boolean
 	convertBoolean: boolean
@@ -37,9 +37,11 @@ export const createOptions = (options: Options): FixedOptions => {
 	return { ...DefaultOptions, ...options }
 }
 
-export const parse = (tsvString: string, options: Options = {}): AnyObject | any[][] => {
+export const parser = (tsvString: string, options: Options = {}): AnyObject | any[][] => {
 	const fixedOptions = createOptions(options)
-	return fixedOptions.type === 'object' ? convertCsvToObject(tsvString, fixedOptions): convertCsvToArray(tsvString, fixedOptions)
+	return fixedOptions.type === 'object'
+		? convertCsvToObject(tsvString, fixedOptions)
+		: convertCsvToArray(tsvString, fixedOptions)
 }
 
 export const convertCsvToArray = (tsvString: string, options: FixedOptions): any[][] => {
@@ -57,8 +59,8 @@ export const convertCsvToObject = (tsvString: string, options: FixedOptions): An
 	const { separator, keys: optionKeys } = options
 
 	const rows = tsvString.split('\n')
-	const isUsedOptionKeys = (0 < optionKeys.length)
-	const keys = (isUsedOptionKeys) ? optionKeys : (rows.shift() || '').split(separator)
+	const isUsedOptionKeys = 0 < optionKeys.length
+	const keys = isUsedOptionKeys ? optionKeys : (rows.shift() || '').split(separator)
 	const createRow = createObjectRowFactory(keys, options)
 
 	return rows.reduce<AnyObject[]>((stack, next) => {
@@ -98,4 +100,4 @@ export const trimString = (str: string): string => {
 	return str.replace(/^\s*/, '').replace(/\s*$/, '')
 }
 
-export default parse
+export default parser

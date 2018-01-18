@@ -3,7 +3,7 @@
 csv file convert to object array like below.
 
 ```
-const parser = require('csv-table-parser')
+const { parser } = require('csv-table-parser')
 
 const input = `name, age, email, isMember
 alice, 15, alice@xxx.com, true
