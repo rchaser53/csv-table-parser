@@ -1,11 +1,11 @@
-import { convertCsvToObject } from '../converter'
+import { parse } from '../converter'
 
-describe('convertCsvToObject', () => {
+describe('parse', () => {
 	test('convert csv to object', async () => {
 		const input = `a,b,c
 1,2,3`
 
-		expect(convertCsvToObject(input)).toEqual([
+		expect(parse(input)).toEqual([
 			{
 				a: 1,
 				b: 2,
@@ -18,7 +18,7 @@ describe('convertCsvToObject', () => {
 		const input = `a,b,c
 true,false,3`
 
-		expect(convertCsvToObject(input)).toEqual([
+		expect(parse(input)).toEqual([
 			{
 				a: true,
 				b: false,
@@ -30,7 +30,7 @@ true,false,3`
 	test('return empty array when first parameter is ""', async () => {
 		const input = ``
 
-		expect(convertCsvToObject(input)).toEqual([])
+		expect(parse(input)).toEqual([])
 	})
 
 	test('trim space and tab before and after string', async () => {
@@ -38,7 +38,7 @@ true,false,3`
 1	,2 , 3 2`
 
 		expect(
-			convertCsvToObject(input, {
+			parse(input, {
 				trim: true
 			})
 		).toEqual([
@@ -51,13 +51,13 @@ true,false,3`
 	})
 })
 
-describe('convertCsvToObject using tab for separator', () => {
+describe('parse using tab for separator', () => {
 	test('convert tsv to object', async () => {
 		const input = `a	b	c
 1	2	3`
 
 		expect(
-			convertCsvToObject(input, {
+			parse(input, {
 				separator: '\t',
 				trim: false
 			})
@@ -71,13 +71,13 @@ describe('convertCsvToObject using tab for separator', () => {
 	})
 })
 
-describe('convertCsvToObject using trim option', () => {
+describe('parse using trim option', () => {
 	test('should not trim space and tab before and after string', async () => {
 		const input = `a, b,   c
 1	,2 , 3 2`
 
 		expect(
-			convertCsvToObject(input, {
+			parse(input, {
 				trim: false,
 				convertNumber: false
 			})
@@ -91,13 +91,13 @@ describe('convertCsvToObject using trim option', () => {
 	})
 })
 
-describe('convertCsvToObject using convertNumber option', () => {
+describe('parse using convertNumber option', () => {
 	test('should not convert number value to Number', async () => {
 		const input = `a, b, c
 1, 2, 3`
 
 		expect(
-			convertCsvToObject(input, {
+			parse(input, {
 				convertNumber: false
 			})
 		).toEqual([
@@ -110,13 +110,13 @@ describe('convertCsvToObject using convertNumber option', () => {
 	})
 })
 
-describe('convertCsvToObject using convertBoolean option', () => {
+describe('parse using convertBoolean option', () => {
 	test('should not convert boolean value to boolean', async () => {
 		const input = `a, b, c
 1, true, false` 
 
 		expect(
-			convertCsvToObject(input, {
+			parse(input, {
 				convertBoolean: false
 			})
 		).toEqual([
@@ -129,13 +129,13 @@ describe('convertCsvToObject using convertBoolean option', () => {
 	})
 })
 
-describe('convertCsvToObject using keys option', () => {
+describe('parse using keys option', () => {
 	test('use keys option for key insteadof firstline', async () => {
 		const input = `a, b, c
 1, true, false` 
 
 		expect(
-			convertCsvToObject(input, {
+			parse(input, {
 				keys: ["aaa", "bbb", "ccc"]
 			})
 		).toEqual([
@@ -149,6 +149,22 @@ describe('convertCsvToObject using keys option', () => {
 				bbb: true,
 				ccc: false
 			}
+		])
+	})
+})
+
+describe('parse using type option', () => {
+	test('return array insteadof object if type is "array"', async () => {
+		const input = `a, b, c
+1, true, false` 
+
+		expect(
+			parse(input, {
+				type: 'array'
+			})
+		).toEqual([
+			['a', 'b', 'c'],
+			[1, true, false]
 		])
 	})
 })
