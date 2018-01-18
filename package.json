@@ -1,8 +1,8 @@
 {
 	"name": "csv-table-parser",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "convert csv to object array",
-	"main": "index.js",
+	"main": "dest/parser.js",
 	"scripts": {
 		"pretsc": "rimraf dest",
 		"tsc": "tsc -p .",
