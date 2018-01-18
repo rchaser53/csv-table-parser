@@ -110,29 +110,21 @@ describe('convertCsvToObject using convertNumber option', () => {
 	})
 })
 
-// describe('convertCsvToObject using filterRows option', () => {
-// 	test('filter not match condtion', async () => {
-// 		const input = `a, b, c
-// 1, 2, 3,
-// 4
-// 5,6,7,8
-// 9, 10, 11`
+describe('convertCsvToObject using convertBoolean option', () => {
+	test('should not convert boolean value to boolean', async () => {
+		const input = `a, b, c
+1, true, false` 
 
-// 		expect(
-// 			convertCsvToObject(input, {
-// 				filter: [
-// 					(rowStr: string) => {
-// 						rowElements = rowStr.split(',')
-// 						return rowElements.length === 3
-// 					}
-// 				]
-// 			})
-// 		).toEqual([
-// 			{
-// 				a: '1',
-// 				b: '2',
-// 				c: '3'
-// 			}
-// 		])
-// 	})
-// })
+		expect(
+			convertCsvToObject(input, {
+				convertBoolean: false
+			})
+		).toEqual([
+			{
+				a: 1,
+				b: 'true',
+				c: 'false'
+			}
+		])
+	})
+})
