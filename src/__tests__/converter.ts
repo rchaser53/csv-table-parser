@@ -128,3 +128,27 @@ describe('convertCsvToObject using convertBoolean option', () => {
 		])
 	})
 })
+
+describe('convertCsvToObject using keys option', () => {
+	test('use keys option for key insteadof firstline', async () => {
+		const input = `a, b, c
+1, true, false` 
+
+		expect(
+			convertCsvToObject(input, {
+				keys: ["aaa", "bbb", "ccc"]
+			})
+		).toEqual([
+			{
+				aaa: 'a',
+				bbb: 'b',
+				ccc: 'c'
+			},
+			{
+				aaa: 1,
+				bbb: true,
+				ccc: false
+			}
+		])
+	})
+})

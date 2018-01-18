@@ -5,15 +5,17 @@ export interface AnyObject {
 }
 
 export interface Options {
-	trim?: boolean
 	separator?: string
+	keys?: string[]
+	trim?: boolean
 	convertNumber?: boolean
 	convertBoolean?: boolean
 }
 
 export interface FixedOptions {
-	trim: boolean
 	separator: string
+	keys: string[]
+	trim: boolean
 	convertNumber: boolean
 	convertBoolean: boolean
 }
@@ -21,8 +23,9 @@ export interface FixedOptions {
 export type CreateRows = (obj: AnyObject, elem: any, index: number) => AnyObject
 
 const DefaultOptions = {
-	trim: true,
 	separator: ',',
+	keys: [],
+	trim: true,
 	convertNumber: true,
 	convertBoolean: true
 }
@@ -33,10 +36,11 @@ export const createOptions = (options: Options): FixedOptions => {
 
 export const convertCsvToObject = (tsvString: string, options: Options = {}): AnyObject => {
 	const fixedOptions = createOptions(options)
-	const { separator } = fixedOptions
+	const { separator, keys: optionKeys } = fixedOptions
 
 	const rows = tsvString.split('\n')
-	const keys = rows.length > 0 ? (rows.shift() || '').split(separator) : []
+	const isUsedOptionKeys = (0 < optionKeys.length)
+	const keys = (isUsedOptionKeys) ? optionKeys : (rows.shift() || '').split(separator)
 	const createRow = createRowFactory(keys, fixedOptions)
 
 	return rows.reduce<AnyObject[]>((stack, next) => {
@@ -44,6 +48,11 @@ export const convertCsvToObject = (tsvString: string, options: Options = {}): An
 		const rowDataObject = values.reduce<AnyObject>(createRow, {})
 		return stack.concat(rowDataObject)
 	}, [])
+}
+
+export const getKeys = (rows: string[], keys: string[], separator: string): string[] => {
+	if (0 < keys.length) return keys
+	return rows.length > 0 ? (rows[0] || '').split(separator) : []
 }
 
 export const createRowFactory = (keys: string[], fixedOptions: FixedOptions): CreateRows => {
