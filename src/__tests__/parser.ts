@@ -165,3 +165,22 @@ describe('parser using type option', () => {
 		).toEqual([['a', 'b', 'c'], [1, true, false]])
 	})
 })
+
+describe('parser using default option', () => {
+	test('return default value if value is null or undefined', async () => {
+		const input = `a, b, c
+1, true, 
+, 2, 3
+4, ,5`
+
+		expect(
+			parser(input, {
+				defaultValue: 'default value'
+			})
+		).toEqual([
+			{ a: 1, b: true, c: 'default value'},
+			{ a: 'default value', b: 2, c: 3},
+			{ a: 4, b: 'default value', c: 5},
+		])
+	})
+})

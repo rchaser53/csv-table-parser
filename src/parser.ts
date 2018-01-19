@@ -10,7 +10,8 @@ export interface Options {
 	type?: 'object' | 'array'
 	trim?: boolean
 	convertNumber?: boolean
-	convertBoolean?: boolean
+	convertBoolean?: boolean,
+	defaultValue?: string
 }
 
 export interface FixedOptions {
@@ -19,7 +20,8 @@ export interface FixedOptions {
 	type: 'object' | 'array'
 	trim: boolean
 	convertNumber: boolean
-	convertBoolean: boolean
+	convertBoolean: boolean,
+	defaultValue: string
 }
 
 export type CreateRows = (obj: AnyObject, elem: any, index: number) => AnyObject
@@ -30,7 +32,8 @@ const DefaultOptions: FixedOptions = {
 	type: 'object',
 	trim: true,
 	convertNumber: true,
-	convertBoolean: true
+	convertBoolean: true,
+	defaultValue: ''
 }
 
 export const createOptions = (options: Options): FixedOptions => {
@@ -90,10 +93,10 @@ export const isBoolean = (value: string): boolean => {
 }
 
 export const convertStringToCorrectType = (str: string, fixedOptions: FixedOptions): any => {
-	const { convertNumber, convertBoolean } = fixedOptions
+	const { convertNumber, convertBoolean, defaultValue } = fixedOptions
 	if (isNumber(str) && convertNumber) return parseInt(str)
 	if (isBoolean(str) && convertBoolean) return str === 'true'
-	return str
+	return (str === '') ? defaultValue : str
 }
 
 export const trimString = (str: string): string => {
