@@ -4,6 +4,10 @@ export interface AnyObject {
 	[key: string]: any
 }
 
+export interface IgnoreRowConditions {
+	lackElements: boolean
+}
+
 export interface Options {
 	separator?: string
 	keys?: string[]
@@ -12,6 +16,7 @@ export interface Options {
 	convertNumber?: boolean
 	convertBoolean?: boolean
 	defaultValue?: string
+	ignoreRow?: IgnoreRowConditions
 }
 
 export interface FixedOptions {
@@ -22,6 +27,7 @@ export interface FixedOptions {
 	convertNumber: boolean
 	convertBoolean: boolean
 	defaultValue: string
+	ignoreRow: IgnoreRowConditions
 }
 
 export type CreateRows = (obj: AnyObject, elem: any, index: number) => AnyObject
@@ -33,7 +39,10 @@ const DefaultOptions: FixedOptions = {
 	trim: true,
 	convertNumber: true,
 	convertBoolean: true,
-	defaultValue: ''
+	defaultValue: '',
+	ignoreRow: {
+		lackElements: true
+	}
 }
 
 export const createOptions = (options: Options): FixedOptions => {
@@ -49,17 +58,33 @@ export const parser = (tsvString: string, options: Options = {}): AnyObject | an
 
 export const convertCsvToArray = (tsvString: string, options: FixedOptions): any[][] => {
 	const rows = tsvString.split('\n')
-	const { separator, trim } = options
-	return rows.map((next) => {
-		return next.split(separator).map((elem) => {
-			const value = trim ? trimString(elem) : elem
-			return convertStringToCorrectType(value, options)
-		})
-	})
+	const { separator, ignoreRow } = options
+
+	if (rows.length === 0) return [[]]
+	const firstRow = (rows.shift() as any).split(separator).map((elem: any) => shapeData(elem, options))
+
+	const remainingRow = rows.reduce<any[][]>((stack, next) => {
+		const rowDataArray = next.split(separator).reduce<any[]>((stack, elem) => {
+			return stack.concat([shapeData(elem, options)])
+		}, [])
+		return isIgnoreRowDataArray(firstRow, rowDataArray, ignoreRow) ? stack : stack.concat([rowDataArray])
+	}, [])
+	return [firstRow].concat(remainingRow)
+}
+
+export const shapeData = (str: string, options: FixedOptions): any => {
+	const { trim } = options
+	const value = trim ? trimString(str) : str
+	return convertStringToCorrectType(value, options)
+}
+
+export const isIgnoreRowDataArray = (keys: string[], rowDataArray: any[], ignoreRow: IgnoreRowConditions): boolean => {
+	const { lackElements } = ignoreRow
+	return lackElements && rowDataArray.length < keys.length
 }
 
 export const convertCsvToObject = (tsvString: string, options: FixedOptions): AnyObject => {
-	const { separator, keys: optionKeys } = options
+	const { separator, keys: optionKeys, ignoreRow } = options
 
 	const rows = tsvString.split('\n')
 	const isUsedOptionKeys = 0 < optionKeys.length
@@ -69,8 +94,18 @@ export const convertCsvToObject = (tsvString: string, options: FixedOptions): An
 	return rows.reduce<AnyObject[]>((stack, next) => {
 		const values = next.split(separator)
 		const rowDataObject = values.reduce<AnyObject>(createRow, {})
-		return stack.concat(rowDataObject)
+
+		return isIgnoreRowDataObject(keys, rowDataObject, ignoreRow) ? stack : stack.concat(rowDataObject)
 	}, [])
+}
+
+export const isIgnoreRowDataObject = (
+	keys: string[],
+	rowDataObject: AnyObject,
+	ignoreRow: IgnoreRowConditions
+): boolean => {
+	const { lackElements } = ignoreRow
+	return lackElements && Object.keys(rowDataObject).length < keys.length
 }
 
 export const getKeys = (rows: string[], keys: string[], separator: string): string[] => {

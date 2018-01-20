@@ -2,6 +2,20 @@ import { parser, Options } from '../parser'
 
 describe('parser', () => {
 	describe('type object', () => {
+		test('ignore rows if element length is less than keys length', async () => {
+			const input = `a,b,c
+true,false,3
+
+`
+			expect(parser(input)).toEqual([
+				{
+					a: true,
+					b: false,
+					c: 3
+				}
+			])
+		})
+
 		test('parse boolean string to boolean', async () => {
 			const input = `a,b,c
 true,false,3`
@@ -166,6 +180,14 @@ null, undefined, 3`
 
 	describe('type array', () => {
 		const defaultOptions: Options = { type: 'array' }
+		test('ignore rows if element length is less than first element length', async () => {
+			const input = `a,b,c
+1, true,false
+
+`
+			expect(parser(input, defaultOptions)).toEqual([['a', 'b', 'c'], [1, true, false]])
+		})
+
 		test('parse csv to array', async () => {
 			const input = `a, b, c
 1, true, false`
