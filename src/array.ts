@@ -1,8 +1,7 @@
 import { FixedOptions, IgnoreRowConditions } from './interface'
 import { shapeData } from './shape'
 
-export const convertCsvToArray = (tsvString: string, options: FixedOptions): any[][] => {
-	const rows = tsvString.split('\n')
+export const convertCsvToArray = (rows: string[], options: FixedOptions): any[][] => {
 	const { separator, ignoreRow } = options
 
 	if (rows.length === 0) return [[]]

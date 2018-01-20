@@ -2,10 +2,9 @@ import { FixedOptions, AnyObject, IgnoreRowConditions, CreateRows } from './inte
 
 import { trimString, convertStringToCorrectType } from './shape'
 
-export const convertCsvToObject = (tsvString: string, options: FixedOptions): AnyObject => {
+export const convertCsvToObject = (rows: string[], options: FixedOptions): AnyObject => {
 	const { separator, keys: optionKeys, ignoreRow } = options
 
-	const rows = tsvString.split('\n')
 	const isUsedOptionKeys = 0 < optionKeys.length
 	const keys = isUsedOptionKeys ? optionKeys : (rows.shift() || '').split(separator)
 	const createRow = createObjectRowFactory(keys, options)

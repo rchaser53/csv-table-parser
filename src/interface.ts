@@ -17,6 +17,7 @@ export interface Options {
 	convertBoolean?: boolean
 	defaultValue?: string
 	ignoreRow?: IgnoreRowConditions
+	startRow?: number
 }
 
 export interface FixedOptions {
@@ -28,4 +29,5 @@ export interface FixedOptions {
 	convertBoolean: boolean
 	defaultValue: string
 	ignoreRow: IgnoreRowConditions
+	startRow: number
 }

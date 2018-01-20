@@ -11,8 +11,8 @@ export const isBoolean = (value: string): boolean => {
 	return value === 'true' || value === 'false'
 }
 
-export const convertStringToCorrectType = (str: string, fixedOptions: FixedOptions): any => {
-	const { convertNumber, convertBoolean, defaultValue } = fixedOptions
+export const convertStringToCorrectType = (str: string, options: FixedOptions): any => {
+	const { convertNumber, convertBoolean, defaultValue } = options
 	if (isNumber(str) && convertNumber) return parseInt(str)
 	if (isBoolean(str) && convertBoolean) return str === 'true'
 	if (str === 'null') return null
@@ -22,4 +22,15 @@ export const convertStringToCorrectType = (str: string, fixedOptions: FixedOptio
 
 export const trimString = (str: string): string => {
 	return str.replace(/^\s*/, '').replace(/\s*$/, '')
+}
+
+export const trimUnnecessaryRow = (rows: string[], options: FixedOptions): string[] => {
+	const { startRow } = options
+	let i = 0
+
+	while (i < startRow) {
+		rows.splice(0, 1)
+		i++
+	}
+	return rows
 }
