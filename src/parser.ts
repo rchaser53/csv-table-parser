@@ -10,7 +10,7 @@ export interface Options {
 	type?: 'object' | 'array'
 	trim?: boolean
 	convertNumber?: boolean
-	convertBoolean?: boolean,
+	convertBoolean?: boolean
 	defaultValue?: string
 }
 
@@ -20,7 +20,7 @@ export interface FixedOptions {
 	type: 'object' | 'array'
 	trim: boolean
 	convertNumber: boolean
-	convertBoolean: boolean,
+	convertBoolean: boolean
 	defaultValue: string
 }
 
@@ -98,7 +98,7 @@ export const convertStringToCorrectType = (str: string, fixedOptions: FixedOptio
 	if (isBoolean(str) && convertBoolean) return str === 'true'
 	if (str === 'null') return null
 	if (str === 'undefined') return undefined
-	return (str === '') ? defaultValue : str
+	return str === '' ? defaultValue : str
 }
 
 export const trimString = (str: string): string => {
