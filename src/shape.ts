@@ -24,13 +24,12 @@ export const trimString = (str: string): string => {
 	return str.replace(/^\s*/, '').replace(/\s*$/, '')
 }
 
-export const trimUnnecessaryRow = (rows: string[], options: FixedOptions): string[] => {
-	const { startRow } = options
+export const trimUnnecessaryElement = (elements: string[], startPosition: number): string[] => {
 	let i = 0
 
-	while (i < startRow) {
-		rows.splice(0, 1)
+	while (i < startPosition) {
+		elements.splice(0, 1)
 		i++
 	}
-	return rows
+	return elements
 }

@@ -189,6 +189,18 @@ A, B, C
 			).toEqual([{ A: 1, B: 2, C: 3 }])
 		})
 	})
+
+	describe('parser using startColumn option', () => {
+		test('row has columns from start column', async () => {
+			const input = `a, b, c
+1, 2, 3`
+			expect(
+				parser(input, {
+					startColumn: 1
+				})
+			).toEqual([{ b: 2, c: 3 }])
+		})
+	})
 })
 
 describe('parser type array', () => {
@@ -297,6 +309,32 @@ null, undefined, 3`
 					defaultValue: 'default value'
 				})
 			).toEqual([['a', 'b', 'c'], ['default value', true, 1], [2, 'default value', 3], [4, 5, 'default value']])
+		})
+	})
+
+	describe('parser using startRow option', () => {
+		test('return row from start row', async () => {
+			const input = `a, b, c
+1, 2, 3`
+			expect(
+				parser(input, {
+					...defaultOptions,
+					startRow: 1
+				})
+			).toEqual([[1, 2, 3]])
+		})
+	})
+
+	describe('parser using startColumn option', () => {
+		test('row has columns from start column', async () => {
+			const input = `a, b, c
+1, 2, 3`
+			expect(
+				parser(input, {
+					...defaultOptions,
+					startColumn: 1
+				})
+			).toEqual([['b', 'c'], [2, 3]])
 		})
 	})
 })

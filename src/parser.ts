@@ -2,7 +2,7 @@ import { FixedOptions, Options, AnyObject } from './interface'
 
 import { convertCsvToArray } from './array'
 import { convertCsvToObject } from './object'
-import { trimUnnecessaryRow } from './shape'
+import { trimUnnecessaryElement } from './shape'
 
 const DefaultOptions: FixedOptions = {
 	separator: ',',
@@ -15,7 +15,8 @@ const DefaultOptions: FixedOptions = {
 	ignoreRow: {
 		lackElements: true
 	},
-	startRow: 0
+	startRow: 0,
+	startColumn: 0
 }
 
 export const createOptions = (options: Options): FixedOptions => {
@@ -24,7 +25,7 @@ export const createOptions = (options: Options): FixedOptions => {
 
 export const parser = (tsvString: string, options: Options = {}): AnyObject | any[][] => {
 	const fixedOptions = createOptions(options)
-	const rows = trimUnnecessaryRow(tsvString.split('\n'), fixedOptions)
+	const rows = trimUnnecessaryElement(tsvString.split('\n'), fixedOptions.startRow)
 	return fixedOptions.type === 'object'
 		? convertCsvToObject(rows, fixedOptions)
 		: convertCsvToArray(rows, fixedOptions)

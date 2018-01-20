@@ -1,12 +1,11 @@
 import { FixedOptions, AnyObject, IgnoreRowConditions, CreateRows } from './interface'
 
-import { trimString, convertStringToCorrectType } from './shape'
+import { trimString, convertStringToCorrectType, trimUnnecessaryElement } from './shape'
 
 export const convertCsvToObject = (rows: string[], options: FixedOptions): AnyObject => {
-	const { separator, keys: optionKeys, ignoreRow } = options
+	const { separator, ignoreRow } = options
 
-	const isUsedOptionKeys = 0 < optionKeys.length
-	const keys = isUsedOptionKeys ? optionKeys : (rows.shift() || '').split(separator)
+	const keys = createKeys(rows, options)
 	const createRow = createObjectRowFactory(keys, options)
 
 	return rows.reduce<AnyObject[]>((stack, next) => {
@@ -15,6 +14,13 @@ export const convertCsvToObject = (rows: string[], options: FixedOptions): AnyOb
 
 		return isIgnoreRowDataObject(keys, rowDataObject, ignoreRow) ? stack : stack.concat(rowDataObject)
 	}, [])
+}
+
+export const createKeys = (rows: string[], options: FixedOptions): string[] => {
+	const { separator, keys: optionKeys, startColumn } = options
+	const isUsedOptionKeys = 0 < optionKeys.length
+	const keys = isUsedOptionKeys ? optionKeys : (rows.shift() || '').split(separator)
+	return trimUnnecessaryElement(keys, startColumn)
 }
 
 export const isIgnoreRowDataObject = (
@@ -26,15 +32,12 @@ export const isIgnoreRowDataObject = (
 	return lackElements && Object.keys(rowDataObject).length < keys.length
 }
 
-export const getKeys = (rows: string[], keys: string[], separator: string): string[] => {
-	if (0 < keys.length) return keys
-	return rows.length > 0 ? (rows[0] || '').split(separator) : []
-}
-
 export const createObjectRowFactory = (keys: string[], fixedOptions: FixedOptions): CreateRows => {
-	const { trim } = fixedOptions
+	const { trim, startColumn } = fixedOptions
 	return (obj, elem, index) => {
-		const key = trim ? trimString(keys[index]) : keys[index]
+		if (index < startColumn) return obj
+		const actualHeaderIndex = index - startColumn
+		const key = trim ? trimString(keys[actualHeaderIndex]) : keys[actualHeaderIndex]
 		const value = trim ? trimString(elem) : elem
 		obj[key] = convertStringToCorrectType(value, fixedOptions)
 		return obj
