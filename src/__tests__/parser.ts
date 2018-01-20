@@ -1,4 +1,5 @@
-import { parser, Options } from '../parser'
+import { parser } from '../parser'
+import { Options } from '../interface'
 
 describe('parser', () => {
 	describe('type object', () => {
