@@ -6,7 +6,7 @@
 	"scripts": {
 		"pretsc": "rimraf dest",
 		"tsc": "tsc -p .",
-		"prettier": "prettier --write \"**/*.{md,js,ts,json}\"",
+		"prettier": "prettier --write \"**/*.{md,js,ts,json}\" && git add . && git status",
 		"test": "jest --runInBand --coverage",
 		"prepublishOnly": "npm run prettier && npm run test && npm run tsc"
 	},
@@ -24,10 +24,12 @@
 	"devDependencies": {
 		"@types/jest": "^22.0.1",
 		"jest": "^22.1.1",
+		"pre-commit": "^1.2.2",
 		"prettier": "^1.10.2",
 		"rimraf": "^2.6.2",
 		"typescript": "^2.6.2"
 	},
+	"pre-commit": ["prettier"],
 	"jest": {
 		"moduleFileExtensions": ["ts", "js"],
 		"transform": {
