@@ -27,6 +27,19 @@ true,false,3`
 		])
 	})
 
+	test('parse null or undefined string to null or undefined', async () => {
+		const input = `a,b,c
+null, undefined, 3`
+
+		expect(parser(input)).toEqual([
+			{
+				a: null,
+				b: undefined,
+				c: 3
+			}
+		])
+	})
+
 	test('return empty array when first parameter is ""', async () => {
 		const input = ``
 

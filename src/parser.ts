@@ -96,6 +96,8 @@ export const convertStringToCorrectType = (str: string, fixedOptions: FixedOptio
 	const { convertNumber, convertBoolean, defaultValue } = fixedOptions
 	if (isNumber(str) && convertNumber) return parseInt(str)
 	if (isBoolean(str) && convertBoolean) return str === 'true'
+	if (str === 'null') return null
+	if (str === 'undefined') return undefined
 	return (str === '') ? defaultValue : str
 }
 
