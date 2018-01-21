@@ -37,11 +37,51 @@ const input = `alice, 15, alice@xxx.com, true
 bob, 25, bob@xxx.com, false
 `
 
-parser(input, { type: 'array')
+parser(input, { type: 'array'})
 /*
  *[
  *   [ "alice", 15, "alice@xxx.com", true ],
  *   [ "bob", 25, "bob@xxx.com", false ]
  *]
 */
+```
+
+## options
+
+second parameter is options. the example is below.
+
+### startRow
+
+```
+const input = `customer name, customer age, customer email for customer service, this user is member or not
+name, age, email, isMember
+alice, 15, alice@xxx.com, true
+bob, 25, bob@xxx.com, false
+`
+
+parser(input, { startRow: 1})
+/*
+ *[
+ *   { name: "alice", age: 15, email: "alice@xxx.com", isMember: true },
+ *   { name: "bob", age: 25, email: "bob@xxx.com", isMember: false }
+ *]
+*/
+```
+
+### numberOfColumn
+
+```
+const input = `name, age, email, isMember
+alice, 15, alice@xxx.com, true
+bob, 25, bob@xxx.com, false
+`
+
+parser(input, { numberOfColumn: 3})
+/*
+ *[
+ *   { name: "alice", age: 15, email: "alice@xxx.com" },
+ *   { name: "bob", age: 25, email: "bob@xxx.com" }
+ *]
+*/
+
 ```
