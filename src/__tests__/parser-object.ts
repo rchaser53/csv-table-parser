@@ -214,4 +214,16 @@ A, B, C
 			).toEqual([{ B: 5, C: 6 }])
 		})
 	})
+
+	describe('parser using numberOfColumn', () => {
+		test("row's number of column is less than number Of Column", async () => {
+			const input = `a, b, c
+1, 2 ,3`
+			expect(
+				parser(input, {
+					numberOfColumn: 2
+				})
+			).toEqual([{ a: 1, b: 2 }])
+		})
+	})
 })

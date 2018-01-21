@@ -1,5 +1,5 @@
 import { FixedOptions, IgnoreRowConditions, CreateColumns } from './interface'
-import { shapeData } from './shape'
+import { isNeededElement, shapeData } from './shape'
 
 export const convertCsvToArray = (rows: string[], options: FixedOptions): any[][] => {
 	const { separator, ignoreRow } = options
@@ -15,10 +15,8 @@ export const convertCsvToArray = (rows: string[], options: FixedOptions): any[][
 }
 
 export const createColumnsFactory = (options: FixedOptions): CreateColumns => {
-	const { startColumn } = options
 	return (stack, elem, index) => {
-		if (index < startColumn) return stack
-		return stack.concat([shapeData(elem, options)])
+		return isNeededElement(options, index) ? stack.concat([shapeData(elem, options)]) : stack
 	}
 }
 

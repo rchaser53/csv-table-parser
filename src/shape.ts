@@ -33,3 +33,10 @@ export const trimUnnecessaryElement = (elements: string[], startPosition: number
 	}
 	return elements
 }
+
+export const isNeededElement = (options: FixedOptions, index: number): boolean => {
+	const { startColumn, numberOfColumn } = options
+	if (index < startColumn) return false
+	if (!!numberOfColumn && numberOfColumn <= index) return false
+	return true
+}

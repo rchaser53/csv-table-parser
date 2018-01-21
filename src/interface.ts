@@ -21,6 +21,7 @@ export interface Options {
 	ignoreRow?: IgnoreRowConditions
 	startRow?: number
 	startColumn?: number
+	numberOfColumn?: number | null
 }
 
 export interface FixedOptions {
@@ -34,4 +35,5 @@ export interface FixedOptions {
 	ignoreRow: IgnoreRowConditions
 	startRow: number
 	startColumn: number
+	numberOfColumn: number | null
 }

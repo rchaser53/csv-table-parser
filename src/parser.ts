@@ -16,7 +16,8 @@ const DefaultOptions: FixedOptions = {
 		lackElements: true
 	},
 	startRow: 0,
-	startColumn: 0
+	startColumn: 0,
+	numberOfColumn: null
 }
 
 export const createOptions = (options: Options): FixedOptions => {
