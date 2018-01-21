@@ -1,5 +1,8 @@
 ![build_status](https://travis-ci.org/rchaser53/csv-table-parser.svg?branch=master)
+![build_status](https://ci.appveyor.com/api/projects/status/github/rchaser53/csv-table-parser?branch=master&svg=true)
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+
+
 
 # how to install
 
