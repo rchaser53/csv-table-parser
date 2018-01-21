@@ -40,7 +40,7 @@ const input = `alice, 15, alice@xxx.com, true
 bob, 25, bob@xxx.com, false
 `
 
-parser(input, { type: 'array'})
+parser(input, { type: 'array' })
 /*
  *[
  *   [ "alice", 15, "alice@xxx.com", true ],
@@ -53,6 +53,23 @@ parser(input, { type: 'array'})
 
 second parameter is options. the example is below.
 
+### separator
+
+```
+const input = `name	age	email	isMember
+alice	15	alice@xxx.com	true
+bob	25	bob@xxx.com	false
+`
+
+parser(input, { separator: '\t' })
+/*
+ *[
+ *   { name: "alice", age: 15, email: "alice@xxx.com", isMember: true },
+ *   { name: "bob", age: 25, email: "bob@xxx.com", isMember: false }
+ *]
+*/
+```
+
 ### startRow
 
 ```
@@ -62,7 +79,24 @@ alice, 15, alice@xxx.com, true
 bob, 25, bob@xxx.com, false
 `
 
-parser(input, { startRow: 1})
+parser(input, { startRow: 1 })
+/*
+ *[
+ *   { name: "alice", age: 15, email: "alice@xxx.com", isMember: true },
+ *   { name: "bob", age: 25, email: "bob@xxx.com", isMember: false }
+ *]
+*/
+```
+
+### startColumn
+
+```
+const input = `no, name, age, email, isMember
+1, alice, 15, alice@xxx.com, true
+2, bob, 25, bob@xxx.com, false
+`
+
+parser(input, { startColumn: 1 })
 /*
  *[
  *   { name: "alice", age: 15, email: "alice@xxx.com", isMember: true },
@@ -79,11 +113,28 @@ alice, 15, alice@xxx.com, true
 bob, 25, bob@xxx.com, false
 `
 
-parser(input, { numberOfColumn: 3})
+parser(input, { numberOfColumn: 3 })
 /*
  *[
  *   { name: "alice", age: 15, email: "alice@xxx.com" },
  *   { name: "bob", age: 25, email: "bob@xxx.com" }
+ *]
+*/
+```
+
+### defaultValue
+
+```
+const input = `name, age, email, isMember
+alice, 15, alice@xxx.com,
+bob, 25, bob@xxx.com, true
+`
+
+parser(input, { defaultValue: false })
+/*
+ *[
+ *   { name: "alice", age: 15, email: "alice@xxx.com", isMember: false },
+ *   { name: "bob", age: 25, email: "bob@xxx.com", isMember: true }
  *]
 */
 ```
