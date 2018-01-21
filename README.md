@@ -83,5 +83,4 @@ parser(input, { numberOfColumn: 3})
  *   { name: "bob", age: 25, email: "bob@xxx.com" }
  *]
 */
-
 ```
