@@ -200,4 +200,18 @@ A, B, C
 			).toEqual([{ b: 2, c: 3 }])
 		})
 	})
+
+	describe('parser using startColumn and StartRow option', () => {
+		test('return row from start row that has columns from start column', async () => {
+			const input = `a, b, c
+A, B, C
+4, 5 ,6`
+			expect(
+				parser(input, {
+					startColumn: 1,
+					startRow: 1
+				})
+			).toEqual([{ B: 5, C: 6 }])
+		})
+	})
 })
