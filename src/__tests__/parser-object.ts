@@ -226,4 +226,23 @@ A, B, C
 			).toEqual([{ a: 1, b: 2 }])
 		})
 	})
+
+	describe('parser using ignoreRow.emptyRow', () => {
+		test('ignore rows have every element is defaultValue', async () => {
+			const input = `a	b	c	d
+      1	2		3	4	
+      					`
+			expect(
+				parser(input, {
+					separator: '\t',
+					startColumn: 0,
+					numberOfColumn: 4,
+					defaultValue: null,
+					ignoreRow: {
+						emptyRow: true
+					}
+				})
+			).toEqual([{ a: 1, b: 2, c: null, d: 3 }])
+		})
+	})
 })

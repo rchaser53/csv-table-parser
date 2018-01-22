@@ -21,10 +21,14 @@ export const createKeys = (rows: string[], options: FixedOptions): string[] => {
 }
 
 export const isIgnoreRowDataObject = (keys: string[], rowDataObject: AnyObject, options: FixedOptions): boolean => {
-	const { numberOfColumn, ignoreRow } = options
+	const { defaultValue, ignoreRow, numberOfColumn } = options
+	const { emptyRow, lackElements } = ignoreRow
 	const needLength = numberOfColumn || keys.length
 
-	return ignoreRow.lackElements && Object.keys(rowDataObject).length < needLength
+	if (lackElements && Object.keys(rowDataObject).length < needLength) return true
+	if (emptyRow && Object.values(rowDataObject).every((elem) => elem === defaultValue)) return true
+
+	return false
 }
 
 export const createObjectRowFactory = (keys: string[], options: FixedOptions): CreateRows => {

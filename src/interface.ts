@@ -7,7 +7,13 @@ export interface AnyObject {
 }
 
 export interface IgnoreRowConditions {
+	lackElements?: boolean
+	emptyRow?: boolean
+}
+
+export interface FixedIgnoreRowConditions {
 	lackElements: boolean
+	emptyRow: boolean
 }
 
 export interface Options {
@@ -17,7 +23,7 @@ export interface Options {
 	trim?: boolean
 	convertNumber?: boolean
 	convertBoolean?: boolean
-	defaultValue?: string
+	defaultValue?: any
 	ignoreRow?: IgnoreRowConditions
 	startRow?: number
 	startColumn?: number
@@ -31,8 +37,8 @@ export interface FixedOptions {
 	trim: boolean
 	convertNumber: boolean
 	convertBoolean: boolean
-	defaultValue: string
-	ignoreRow: IgnoreRowConditions
+	defaultValue: any
+	ignoreRow: FixedIgnoreRowConditions
 	startRow: number
 	startColumn: number
 	numberOfColumn: number | null

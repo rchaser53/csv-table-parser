@@ -13,7 +13,8 @@ const DefaultOptions: FixedOptions = {
 	convertBoolean: true,
 	defaultValue: '',
 	ignoreRow: {
-		lackElements: true
+		lackElements: true,
+		emptyRow: true
 	},
 	startRow: 0,
 	startColumn: 0,
@@ -21,7 +22,7 @@ const DefaultOptions: FixedOptions = {
 }
 
 export const createOptions = (options: Options): FixedOptions => {
-	return { ...DefaultOptions, ...options }
+	return { ...DefaultOptions, ...options, ignoreRow: { ...DefaultOptions.ignoreRow, ...options.ignoreRow } }
 }
 
 export const parser = (tsvString: string, options: Options = {}): AnyObject | any[][] => {
