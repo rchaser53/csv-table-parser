@@ -3,6 +3,7 @@
 	"version": "1.1.1",
 	"description": "convert csv to object array",
 	"main": "dest/parser.js",
+	"types": "dest/parser.d.ts",
 	"scripts": {
 		"pretsc": "rimraf dest",
 		"tsc": "tsc -p .",
